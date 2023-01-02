@@ -34,3 +34,4 @@ jobs:
         body: |
           This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
         pull_request_number: ${{ steps.pr.outputs.number }}
+        comment-id: ${{ github.event.comment.id }}
