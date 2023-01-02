@@ -31,8 +31,9 @@ jobs:
       uses: peter-evans/create-or-update-comment@v2.1.0
       if: always()
       with:
+        issue-number: 1
+        comment-id: ${{ github.event.comment.id }}
         body: |
           This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
-        comment-id: ${{ github.event.comment.id }}
         pull_request_number: ${{ steps.pr.outputs.number }}
 
