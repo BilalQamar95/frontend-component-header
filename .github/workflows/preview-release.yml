@@ -21,7 +21,7 @@ jobs:
       id: pr
       run: echo "::set-output name=number::$GITHUB_PULL_REQUEST"
     - name: Update pull request comment
-      uses: cycjimmy/create-or-update-pull-request-comment@v3
+      uses: peter-evans/create-or-update-pull-request-comment
       if: always()
       with:
         body: |
