@@ -1,0 +1,29 @@
+name: Preview Release
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16
+    - name: Install dependencies
+      run: npm install
+    - name: Run semantic-release dry-run
+      run: npx semantic-release --dry-run --no-ci
+    - name: Get pull request information
+      id: pr
+      run: echo "::set-output name=number::$GITHUB_PULL_REQUEST"
+    - name: Update pull request comment
+      uses: cycjimmy/create-or-update-pull-request-comment@v3
+      if: always()
+      with:
+        body: |
+          This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
+        pull_request_number: ${{ steps.pr.outputs.number }}
