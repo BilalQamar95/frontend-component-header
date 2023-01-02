@@ -1,8 +1,13 @@
 name: Preview Release
 
 on:
+  push:
+    branches:
+    - master
   pull_request:
     types: [opened, synchronize]
+    branches:
+    - '**'
 
 jobs:
   preview:
