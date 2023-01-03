@@ -33,7 +33,7 @@ jobs:
       with:
         issue-number: ${{ github.event.pull_request.number }}
         body: |
-          This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
+          This pull request would release version `$(npx semantic-release --dry-run --no-ci --branches master,bilalqamar95/semantic-release-preview-workflow)` upon merge.
     - name: Check outputs
       run: |
         echo "Comment ID - ${{ steps.couc.outputs.comment-id }}"
