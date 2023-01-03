@@ -1,47 +1,45 @@
-name: Preview Release
-on:
-  push:
-    branches:
-    - master
-  pull_request:
-    types: [opened, synchronize]
-    branches:
-    - '**'
+name: Integration
+
+on: pull_request
 
 jobs:
-  preview:
+  preview_release_notes:
     runs-on: ubuntu-latest
+    name: Preview release notes
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16
-    - name: Install dependencies
-      run: npm install
-    - name: Run semantic-release dry-run
-      run: npx semantic-release --dry-run --no-ci --branches master,bilalqamar95/semantic-release-preview-workflow
-    - name: Get pull request information
-      id: pr
-      run: echo "::set-output name=number::$GITHUB_PULL_REQUEST"
-    - name: Generate release notes preview
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Generate release notes preview
         id: build-release-notes
         uses: guilhermetod/semantic-release-notes-preview@v1.0.0
-    - name: Comment release notes preview
-      if: steps.build-release-notes.outputs.releaseNotes
-      uses: peter-evans/create-or-update-comment@v2
-      with:
-        issue-number: ${{ github.event.number }}
-        body: |
-          ## 👋 Hey there!
-          Thank you for you contribution. Below is a preview of the release notes if your PR gets merged.
-          Please, make sure it includes all your significant changes with descriptive messages.
-          Keep in mind that release notes are automatically generated from the commit messages according to [conventional commits](https://www.conventionalcommits.org/).
-          If you feel like you need to change anything, please take a look into [this guide](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#addressing-review-feedback) to learn how you can fixup your commits.
+      - name: Comment release notes preview
+        if: steps.build-release-notes.outputs.releaseNotes
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.number }}
+          body: |
+            ## 👋 Hey there!
+            Thank you for you contribution. Below is a preview of the release notes if your PR gets merged.
+            Please, make sure it includes all your significant changes with descriptive messages.
+            Keep in mind that release notes are automatically generated from the commit messages according to [conventional commits](https://www.conventionalcommits.org/).
+            If you feel like you need to change anything, please take a look into [this guide](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#addressing-review-feedback) to learn how you can fixup your commits.
 
-          ---
+            ---
 
-          ${{ steps.build-release-notes.outputs.releaseNotes }}
+            ${{ steps.build-release-notes.outputs.releaseNotes }}
