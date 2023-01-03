@@ -34,7 +34,7 @@ jobs:
         issue-number: 1
         body: |
           This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
-        pull_request_number: ${{ steps.pr.outputs.number }}
+        issue-number: ${{ steps.pr.outputs.number }}
     - name: Check outputs
       run: |
         echo "Comment ID - ${{ steps.couc.outputs.comment-id }}"
