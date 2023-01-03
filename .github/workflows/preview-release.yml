@@ -31,7 +31,6 @@ jobs:
       uses: peter-evans/create-or-update-comment@v2
       id: couc
       with:
-        issue-number: 1
         body: |
           This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
         issue-number: ${{ steps.pr.outputs.number }}
