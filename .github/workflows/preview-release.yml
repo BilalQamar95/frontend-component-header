@@ -28,10 +28,12 @@ jobs:
       id: pr
       run: echo "::set-output name=number::$GITHUB_PULL_REQUEST"
     - name: Update pull request comment
-      uses: peter-evans/create-or-update-pull-request-comment@v3
-      if: always()
+      uses: peter-evans/create-or-update-comment@v2
+      id: couc
       with:
+        issue-number: ${{ github.event.pull_request.number }}
         body: |
           This pull request would release version `$(npx semantic-release --dry-run --no-ci)` upon merge.
-        pull_request_number: ${{ steps.pr.outputs.number }}
-
+    - name: Check outputs
+      run: |
+        echo "Comment ID - ${{ steps.couc.outputs.comment-id }}"
