@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Run semantic-release dry-run
-      run: npx semantic-release --dry-run --no-ci --branches master,$CI_COMMIT_BRANCH
+      run: npx semantic-release --dry-run --no-ci --branches master,`$CI_COMMIT_BRANCH`
     - name: Get pull request information
       id: pr
       run: echo "::set-output name=number::$GITHUB_PULL_REQUEST"
