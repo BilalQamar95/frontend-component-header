@@ -8,8 +8,7 @@
   },
   "release": {
     "branches": [
-      "main",
-      "dry"
+      "master"
     ]
   },
   "scripts": {
