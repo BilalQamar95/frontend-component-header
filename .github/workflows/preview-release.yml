@@ -12,7 +12,7 @@ jobs:
       - name: Create dry branch
         uses: peterjgrainger/action-create-branch@v2.0.1
         env:
-          GITHUB_TOKEN: ${{ SECRET }}
+          GITHUB_TOKEN: ${{ header-token }}
         with:
           branch: 'dry'
 
@@ -31,8 +31,8 @@ jobs:
 
       - name: Dry run
         env:
-          GITHUB_TOKEN: ${{ SECRET }}
-          NPM_TOKEN: ${{ SECRET }}
+          GITHUB_TOKEN: ${{ header-token }}
+          # NPM_TOKEN: ${{ header-token }}
         run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
 
       - name: Back to code
@@ -41,5 +41,5 @@ jobs:
       - name: Clear dry branch
         uses: dawidd6/action-delete-branch@v3
         with:
-          github_token: ${{SECRET}}
+          github_token: ${{header-token}}
           branches: dry
