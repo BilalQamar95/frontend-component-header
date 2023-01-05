@@ -3,31 +3,30 @@
   "tagFormat": "v${version}",
   "verifyConditions": [
     "@semantic-release/npm",
-    {
-      "path": "@semantic-release/github",
-      "assets": {
-        "path": "dist/*"
-      }
-    }
-  ],
-  "analyzeCommits": "@semantic-release/commit-analyzer",
-  "generateNotes": "@semantic-release/release-notes-generator",
-  "prepare": "@semantic-release/npm",
-  "publish": [
-    "@semantic-release/npm",
-    {
-      "path": "@semantic-release/github",
-      "assets": {
-        "path": "dist/*"
-      }
-    }
-  ],
-  "success": [
     ["@semantic-release/github", {
       "successComment": "This pull request will trigger a new release.",
       "successCommentCount": 0,
       "failureComment": "This pull request cannot trigger a new release."
     }]
   ],
+  "analyzeCommits": "@semantic-release/commit-analyzer",
+  "generateNotes": "@semantic-release/release-notes-generator",
+  "prepare": [
+    "@semantic-release/npm",
+    ["@semantic-release/github", {
+      "assets": {
+        "path": "dist/*"
+      }
+    }]
+  ],
+  "publish": [
+    "@semantic-release/npm",
+    ["@semantic-release/github", {
+      "assets": {
+        "path": "dist/*"
+      }
+    }]
+  ],
+  "success": [],
   "fail": []
 }
