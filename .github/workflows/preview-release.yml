@@ -25,4 +25,4 @@ jobs:
         if: success()
         with:
           body: "The previewed version for this pull request is ${{ toJson(steps.preview_release.outputs.release) }}."
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }}
