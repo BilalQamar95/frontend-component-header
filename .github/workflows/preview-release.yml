@@ -19,7 +19,7 @@ jobs:
       # Install dependencies
       - run: npm install
       # Preview the release
-      - run: npx semantic-release --dry-run
+      - run: npx semantic-release
       # Comment on the pull request with the previewed version
       - uses: peter-evans/create-or-update-comment@v2
         if: success()
