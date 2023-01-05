@@ -4,7 +4,7 @@
   "verifyConditions": [
     "@semantic-release/npm",
     ["@semantic-release/github", {
-      "successCommentCount": 0
+      "onSuccess": "release"
     }]
   ],
   "analyzeCommits": "@semantic-release/commit-analyzer",
